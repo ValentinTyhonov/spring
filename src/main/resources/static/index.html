@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File uploader</title>
+</head>
+<body>
+
+<div>
+    <h2>Upload single file</h2>
+    <form id="singleFileUploadForm" name="singleFileUploadForm">
+        <input id="singleFileUploadInput" type="file" name="file" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="singleFileUploadSuccess"></div>
+    <div id="singleFileUploadError"></div>
+</div>
+
+<div>
+    <h2>Upload multiple file</h2>
+    <form id="multipleFileUploadForm" name="multipleFileUploadForm">
+        <input id="multipleFileUploadInput" type="file" name="file" multiple required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="multipleFileUploadSuccess"></div>
+    <div id="multipleFileUploadError"></div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
