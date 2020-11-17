@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,13 +36,19 @@ public class FileMultipartController
     {
         FileMultipart savedFileMultipart = service.saveFile(multipartFile);
 
+        savedFileMultipart.setDownloadUrl(buildDownloadUrl(savedFileMultipart.getId()));
+
         return savedFileMultipart;
     }
 
     @GetMapping("/files")
     public List<FileMultipart> findAllFiles()
     {
-        return service.findAllFiles();
+        List<FileMultipart> files = service.findAllFiles();
+
+        files.forEach(file -> file.setDownloadUrl(buildDownloadUrl(file.getId())));
+
+        return files;
     }
 
     @GetMapping("/downloadFile/{id}")
@@ -53,6 +60,14 @@ public class FileMultipartController
             .contentType(MediaType.parseMediaType(fileMultipart.getFileType()))
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment ; fileName=\"" + fileMultipart.getFileName() + "\"")
             .body(new ByteArrayResource(fileMultipart.getData()));
+    }
+
+    private String buildDownloadUrl(String id)
+    {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/downloadFile/")
+            .path(id)
+            .toUriString();
     }
 
 
