@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -40,12 +41,13 @@ public class CountryServiceImpl implements CountryService
     }
 
     @Override
-    public void delete(Long id)
+    public void delete(Long id) throws IOException
     {
         if (countryRepository.existsById(id))
         {
             countryRepository.deleteById(id);
         }
+        throw new IOException("Failed");
     }
 
     @Override

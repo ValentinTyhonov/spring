@@ -2,6 +2,8 @@ package com.example.spring.controller;
 
 import com.example.spring.model.Country;
 import com.example.spring.service.CountryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("country")
+@Api(value = "Country", tags = "Country Rest API")
 public class CountryController
 {
     private CountryService countryService;
@@ -42,12 +43,8 @@ public class CountryController
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Country> get(@PathVariable("id") Long id,
-                                       @RequestParam(value = "name", required = true) String name,
-                                       @RequestParam(value = "age", required = false) String age)
+    public ResponseEntity<Country> get(@ApiParam(name = "ID", allowableValues = "1, 2, 3", defaultValue = "2", value = "1") @PathVariable("id") Long id)
     {
-        System.out.println(name);
-        System.out.println(age);
         Country country = countryService.get(id);
         return ResponseEntity.ok(country);
     }
